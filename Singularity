@@ -1,5 +1,5 @@
 BootStrap: debootstrap
-OSVersion: artful
+OSVersion: zesty
 MirrorURL: http://us.archive.ubuntu.com/ubuntu/
 
 
@@ -20,7 +20,7 @@ MirrorURL: http://us.archive.ubuntu.com/ubuntu/
     apt-get install -y --no-install-recommends gnupg dirmngr
 
     # NeuroDebian
-    wget -O- http://neuro.debian.net/lists/artful.us-nh.full | tee /etc/apt/sources.list.d/neurodebian.sources.list
+    wget -O- http://neuro.debian.net/lists/zesty.us-nh.full | tee /etc/apt/sources.list.d/neurodebian.sources.list
     apt-key adv --recv-keys --keyserver hkp://pool.sks-keyservers.net:80 0xA5D32F012649A5A9
 
     apt-get update
@@ -29,21 +29,13 @@ MirrorURL: http://us.archive.ubuntu.com/ubuntu/
     chmod a+rX /scratch /local-scratch /fastscratch /ihome /idata /apps
 
     wget --no-check-certificate \
-        https://raw.githubusercontent.com/mafeilong/artful-neurodebian/test/install_packages.sh \
+        https://raw.githubusercontent.com/mafeilong/artful-neurodebian/zesty/install_packages.sh \
         -O /tmp/install_packages.sh
 
     /bin/bash /tmp/install_packages.sh
 
-    # apt-get install -y --no-install-recommends gcc python-dev python3-dev
-    # pip install dask distributed pprocess
-    # pip3 install pprocess
-
-    wget -O- http://neuro.debian.net/lists/zesty.us-nh.full >> /etc/apt/sources.list.d/neurodebian.sources.list
-    cp /etc/apt/sources.list /etc/apt/sources.list.backup
-    echo "deb http://us.archive.ubuntu.com/ubuntu zesty main universe" >> /etc/apt/sources.list
-    apt-get update
-
-    /bin/bash /tmp/install_packages.sh
+    # echo "deb http://us.archive.ubuntu.com/ubuntu artful main universe" >> /etc/apt/sources.list
+    # apt-get update && apt-get upgrade -y python3
 
     # apt-get purge -y --auto-remove gcc python-dev
     # apt-get clean

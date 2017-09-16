@@ -50,6 +50,6 @@ MirrorURL: http://us.archive.ubuntu.com/ubuntu/
     # rm -rf /var/lib/apt/lists/*
 
     cd /apps
-    curl ftp://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/6.0.0/freesurfer-Linux-centos6_x86_64-stable-pub-v6.0.0.tar.gz | tar xz
+    curl -s ftp://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/6.0.0/freesurfer-Linux-centos6_x86_64-stable-pub-v6.0.0.tar.gz | tar xz
 
     echo "Bootstrapping finished."

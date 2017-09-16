@@ -20,10 +20,19 @@ packages=(
     convert3d
     gcc
 )
-for pkg in "${packages[@]}"; do
-    if apt-cache show $pkg &> /dev/null; then
-        apt-get install -y --no-install-recommends $pkg
+
+install_package () {
+    pkg=$1
+    wc1=`apt-cache policy $pkg | wc -l`
+    wc2=`apt-cache policy $pkg | grep "Candidate: (none)" | wc -l`
+    if  [ $wc1 -gt 0 ] && [ $wc2 -eq 0 ] ; then
+        apt-get install -y --no-install-recommends $pkg || true
     fi
+    return 0
+}
+
+for pkg in "${packages[@]}"; do
+    install_package $pkg
 done
 
 python_packages=(
@@ -66,8 +75,6 @@ python_packages=(
 for package in "${python_packages[@]}"; do
     for py in python python3; do
         pkg=${py}-${package}
-        if apt-cache show $pkg &> /dev/null; then
-            apt-get install -y --no-install-recommends $pkg
-        fi
+        install_package $pkg
     done
 done

@@ -10,7 +10,6 @@ packages=(
     jupyter-notebook
     git
     git-annex
-    datalad
     connectome-workbench
     ants
     dcm2niix
@@ -26,14 +25,9 @@ install_package () {
     wc1=`apt-cache policy $pkg | wc -l`
     wc2=`apt-cache policy $pkg | grep "Candidate: (none)" | wc -l`
     if  [ $wc1 -gt 0 ] && [ $wc2 -eq 0 ] ; then
-        apt-get install -y --no-install-recommends $pkg || true
+        echo "$pkg"
     fi
-    return 0
 }
-
-for pkg in "${packages[@]}"; do
-    install_package $pkg
-done
 
 python_packages=(
     numpy
@@ -68,13 +62,22 @@ python_packages=(
     pymc
     nipy
     nilearn
-    datalad
     dicom
 )
+
+TODO=""
+
+for pkg in "${packages[@]}"; do
+    pkg=`install_package $pkg`
+    TODO="$TODO $pkg"
+done
 
 for package in "${python_packages[@]}"; do
     for py in python python3; do
         pkg=${py}-${package}
-        install_package $pkg
+        pkg=`install_package $pkg`
+        TODO="$TODO $pkg"
     done
 done
+
+apt-get install -y --no-install-recommends $TODO

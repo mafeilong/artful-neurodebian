@@ -1,26 +1,25 @@
 BootStrap: debootstrap
-OSVersion: zesty
-MirrorURL: http://us.archive.ubuntu.com/ubuntu/
+OSVersion: buster
+MirrorURL: http://ftp.us.debian.org/debian/
+# MirrorURL: http://smaug.datalad.org:3142/debian/
 
 
 %runscript
     /bin/bash
 
 %post
-    sed -i 's/$/ universe/' /etc/apt/sources.list
     apt-get update
 
-    apt-get install -y --no-install-recommends wget tree emacs-nox
+    apt-get install -y --no-install-recommends wget tree emacs-nox ca-certificates
     apt-get install -y --no-install-recommends locales tzdata
-    locale-gen en_US en_US.UTF-8
+    cat /usr/share/i18n/SUPPORTED | grep en_US >> /etc/locale.gen
+    locale-gen
     update-locale LANG=en_US.UTF-8
-    echo "US/Eastern" | tee /etc/timezone
-    dpkg-reconfigure --frontend noninteractive tzdata
 
     apt-get install -y --no-install-recommends gnupg dirmngr
 
     # NeuroDebian
-    wget -O- http://neuro.debian.net/lists/zesty.us-nh.full | tee /etc/apt/sources.list.d/neurodebian.sources.list
+    wget -O- http://neuro.debian.net/lists/buster.us-nh.full | tee /etc/apt/sources.list.d/neurodebian.sources.list
     apt-key adv --recv-keys --keyserver hkp://pool.sks-keyservers.net:80 0xA5D32F012649A5A9
 
     apt-get update
@@ -28,14 +27,21 @@ MirrorURL: http://us.archive.ubuntu.com/ubuntu/
     mkdir -p /scratch /local-scratch /fastscratch /ihome /idata /apps
     chmod a+rX /scratch /local-scratch /fastscratch /ihome /idata /apps
 
-    wget --no-check-certificate \
-        https://raw.githubusercontent.com/mafeilong/artful-neurodebian/zesty/install_packages.sh \
+    wget https://raw.githubusercontent.com/mafeilong/artful-neurodebian/buster/install_packages.sh \
         -O /tmp/install_packages.sh
+
+    wget https://raw.githubusercontent.com/mafeilong/artful-neurodebian/buster/install_python_packages.sh \
+        -O /tmp/install_python_packages.sh
 
     /bin/bash /tmp/install_packages.sh
 
-    # echo "deb http://us.archive.ubuntu.com/ubuntu artful main universe" >> /etc/apt/sources.list
-    # apt-get update && apt-get upgrade -y python3
+    wget -O- http://neuro.debian.net/lists/stretch.us-nh.full >> /etc/apt/sources.list.d/neurodebian.sources.list
+    echo "deb http://ftp.us.debian.org/debian stretch main" >> /etc/apt/sources.list
+    apt-get update
+
+    apt-get install -y fsl-complete
+    /bin/bash /tmp/install_packages.sh
+    /bin/bash /tmp/install_python_packages.sh
 
     # apt-get purge -y --auto-remove gcc python-dev
     # apt-get clean

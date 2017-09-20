@@ -14,10 +14,11 @@ packages=(
     ants
     dcm2niix
     afni
-    fsl-complete
     heudiconv
     convert3d
     gcc
+    fsleyes
+    mricron
 )
 
 install_package () {
@@ -41,6 +42,7 @@ python_packages=(
     h5py
     seaborn
     joblib
+    pprocess
     psutil
     tables
     mpi4py
@@ -61,8 +63,13 @@ python_packages=(
     sklearn-lib
     pymc
     nipy
+    nipype
     nilearn
     dicom
+    dcmstack
+    configparser
+    funcsigs
+    pytest
 )
 
 TODO=""

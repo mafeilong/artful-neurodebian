@@ -1,8 +1,5 @@
-BootStrap: debootstrap
-OSVersion: buster
-MirrorURL: http://ftp.us.debian.org/debian/
-# MirrorURL: http://smaug.datalad.org:3142/debian/
-
+BootStrap: docker
+From: neurodebian:buster
 
 %runscript
     /bin/bash
@@ -15,14 +12,6 @@ MirrorURL: http://ftp.us.debian.org/debian/
     cat /usr/share/i18n/SUPPORTED | grep en_US >> /etc/locale.gen
     locale-gen
     update-locale LANG=en_US.UTF-8
-
-    apt-get install -y --no-install-recommends gnupg dirmngr
-
-    # NeuroDebian
-    wget -O- http://neuro.debian.net/lists/buster.us-nh.full | tee /etc/apt/sources.list.d/neurodebian.sources.list
-    apt-key adv --recv-keys --keyserver hkp://pool.sks-keyservers.net:80 0xA5D32F012649A5A9
-
-    apt-get update
 
     mkdir -p /scratch /local-scratch /fastscratch /ihome /idata /apps
     chmod a+rX /scratch /local-scratch /fastscratch /ihome /idata /apps
@@ -43,7 +32,9 @@ MirrorURL: http://ftp.us.debian.org/debian/
     /bin/bash /tmp/install_packages.sh
     /bin/bash /tmp/install_python_packages.sh
 
-    # apt-get purge -y --auto-remove gcc python-dev
+    rm /usr/bin/python3
+    ln -s python3.6 /usr/bin/python3
+
     # apt-get clean
     # rm -rf /var/lib/apt/lists/*
 

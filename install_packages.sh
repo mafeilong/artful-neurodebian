@@ -8,6 +8,11 @@ packages=(
     ipython
     ipython3
     jupyter-notebook
+    jupyter-nbextension-jupyter-js-widgets
+    swig
+    libdpkg-perl
+    python3.6-dev
+    g++
     git
     git-annex
     connectome-workbench
@@ -70,6 +75,7 @@ python_packages=(
     configparser
     funcsigs
     pytest
+    ipykernel
 )
 
 TODO=""

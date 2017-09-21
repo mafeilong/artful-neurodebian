@@ -42,3 +42,5 @@ From: neurodebian:buster
     curl -s ftp://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/6.0.0/freesurfer-Linux-centos6_x86_64-stable-pub-v6.0.0.tar.gz | tar xz
 
     echo "Bootstrapping finished."
+    echo "Please copy your FreeSurfer license to /apps/freesurfer. In my case the command was"
+    echo "sudo singularity copy buster.img ../neurodebian/FS_license.txt /apps/freesurfer/license.txt"

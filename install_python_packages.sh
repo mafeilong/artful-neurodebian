@@ -19,7 +19,7 @@ pip_packages=(
     wheel
     shogun
     statsmodels
-    mvpa2
+    pymvpa2
     surfer
     nitime
     distributed

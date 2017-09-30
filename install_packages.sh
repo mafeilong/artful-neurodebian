@@ -76,6 +76,8 @@ python_packages=(
     funcsigs
     pytest
     ipykernel
+    ipywidgets
+    widgetsnbextension
 )
 
 TODO=""

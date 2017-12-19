@@ -34,6 +34,20 @@ From: neurodebian:artful-non-free
     # apt-get clean
     # rm -rf /var/lib/apt/lists/*
 
+    apt-get install -y --no-install-recommends python-tk
+    apt-get install -y --no-install-recommends python3-tk
+    apt-get remove -y python-h5py
+    apt-get remove -y python3-h5py
+    apt-get update
+    apt-get install -y --no-install-recommends libhdf5-openmpi-100
+    apt-get install -y --no-install-recommends mpi-default-dev
+    apt-get install -y --no-install-recommends libhdf5-openmpi-dev
+    export CC=mpicc
+    export HDF5_MPI="ON"
+    export HDF5_DIR=/usr/lib/x86_64-linux-gnu/hdf5/openmpi/
+    pip install --no-binary=h5py h5py
+    pip3 install --no-binary=h5py h5py
+
     cd /apps
     curl -s ftp://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/6.0.1/freesurfer-Linux-centos6_x86_64-stable-pub-v6.0.1.tar.gz | tar xz
 

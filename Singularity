@@ -1,20 +1,30 @@
-BootStrap: docker
-From: neurodebian:artful-non-free
+BootStrap: shub
+From: neurodebian/neurodebian
+
+%help
+
+%setup
+
+%files
+
+%labels
+
+%environment
 
 %runscript
     /bin/bash
 
 %post
     apt-get update
-
+    apt-get upgrade -y
     apt-get install -y --no-install-recommends wget tree emacs-nox ca-certificates
     apt-get install -y --no-install-recommends locales tzdata
     cat /usr/share/i18n/SUPPORTED | grep en_US >> /etc/locale.gen
     locale-gen
     update-locale LANG=en_US.UTF-8
 
-    mkdir -p /scratch /local-scratch /fastscratch /ihome /idata /apps /data /scripts /results
-    chmod a+rX /scratch /local-scratch /fastscratch /ihome /idata /apps /data /scripts /results
+    mkdir -p /scratch /local-scratch /fastscratch /ihome /idata /apps /data /scripts /results /dartfs-hpc /dartfs
+    chmod a+rX /scratch /local-scratch /fastscratch /ihome /idata /apps /data /scripts /results /dartfs-hpc /dartfs
 
     wget https://raw.githubusercontent.com/mafeilong/artful-neurodebian/artful/install_packages.sh \
         -O /tmp/install_packages.sh
@@ -30,14 +40,8 @@ From: neurodebian:artful-non-free
 
     rm /usr/bin/python
     ln -s python3 /usr/bin/python
-
-    # apt-get clean
-    # rm -rf /var/lib/apt/lists/*
-
     apt-get install -y --no-install-recommends python-tk
     apt-get install -y --no-install-recommends python3-tk
-    apt-get remove -y python-h5py
-    apt-get remove -y python3-h5py
     apt-get update
     apt-get install -y --no-install-recommends libhdf5-openmpi-100
     apt-get install -y --no-install-recommends mpi-default-dev

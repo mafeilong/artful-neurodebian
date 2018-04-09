@@ -7,7 +7,6 @@ pip_packages=(
     nose
     nibabel
     future
-    h5py
     seaborn
     joblib
     pprocess
